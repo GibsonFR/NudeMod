@@ -23,19 +23,16 @@ namespace Exemple
         }
         public class BaseClass : MonoBehaviour
         {
-            public static bool init;
-            public static DateTime start = DateTime.Now;
+            bool init;
+            DateTime start = DateTime.Now;
             Rigidbody clientBody = null;
 
             void Update()
             {
+                DateTime end = DateTime.Now;
                 if (nudeTrigger && !init)
                 {
-                    if (clientBody == null)
-                        clientBody = GetPlayerBody();
-
-
-                    if (clientBody != null || GetGameStateAsString() == "Playing")
+                    if ((end - start).TotalSeconds > 2)
                     {
 
                         GameObject[] onlinePlayers = GameObject.FindObjectsOfType<GameObject>().Where(go => go.name == "OnlinePlayer(Clone)").ToArray();
@@ -60,8 +57,9 @@ namespace Exemple
                                     sweaterRenderer.enabled = false; // Cache l'objet
                                 }
                             }
+                            init = true;
                         }
-                        init = true;
+                        
                     }
                 }
             }
